@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,900;1,400&display=swap");
+
+*,
+*::before,
+*::after {
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  min-height: 100vh;
+  color: #111;
+  background-color:#dbefff;
+  letter-spacing: 1px;
+  background-image: url('./pattern.png');
+  background-size:356px;
+  background-attachment: fixed;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+img {
+  max-width: 100%;
+}
+
+.text-right{
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.app {
+  /* padding-top: 100px; */
+}
+
+.content {
+  position: relative;
+}
+
+.header {
+  padding: 2rem;
+  box-shadow: 0px -50px 50px 0px rgba(0,0,0,0.2);
+}
+
+.header p{
+  font-size: .9rem;
+  margin-bottom: .5rem;
+}
+
+.header p span{
+  font-weight: bold
+}
+
+.footer{
+  copyright
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center{
+  justify-content: center;
+}
+
+.logo-wrapper {
+  display: inline-block;
+}
+.logo-wrapper img {
+  width: 160px;
+}
+
+.footer {
+  display: flex;
+  padding: 2rem 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.group-name {
+  position: relative;
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 2rem;
+  text-align: left;
+}
+
+.group-name::before {
+  content: attr(title);
+  position: absolute;
+  font-size: 5.5rem;
+  opacity: 0.1;
+  white-space: pre;
+  display: inline;
+  transform: translate(-15%, -25%);
+}
+
+.product-item {
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.product-inner {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+}
+
+.product-name {
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.product-name::before {
+  content: attr(title);
+  position: absolute;
+  font-size: 2.5rem;
+  opacity: 0.1;
+}
+
+.product-description {
+  font-style: italic;
+}

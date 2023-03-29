@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./bootstrap-grid.css">
+        <link rel="stylesheet" href="./style.css">
+    </head>
+
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div id="app" class="app ">
+            <div class="header container">
+                <div class="row align-items-center">
+                    <div class="col-4 text-left">
+                        <div class="logo-wrapper">
+                            <img src="./logo.svg" />
+                        </div>
+                    </div>
+                    <div class="col text-right">
+                        <p>Company: <span>JM Exports</span></p>
+                        <p>Name: <span>Pinkesh Parekh</span></p>
+                        <p>Contact: <span>+919978802880</span></p>
+                        <p>Email: <span>jmenterprise.ahd@gmail.com</span></p>
+                        <p>Address: <span>24, Gala Magnus, South Bopal Ahmedabad</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content container">
+                <template v-for="(group, i) in groups">
+                    <div class="group-name" :title="group">{{group}}</div>
+                    <ul class="product-list row">
+                        <template v-for="(product, i) in products">
+                            <li class="product-item col-12 col-sm-12 col-md-6 col-lg-4" v-if="product.group === group">
+                                <div class="product-inner">
+                                    <p class="product-name" :title="product.name">{{ product.name }}</p>
+                                    <div class="product-image"><img :src="`./images/${product.image}`" /></div>
+                                    <p class="product-description">{{ product.description }}</p>
+                                    <p class="product-stock">{{ product.inStock ? "In Stock" : "Out of Stock"}}</p>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">Copyright © All Rights Reserved By Jain Exports.</p>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="./data.js"></script>
+
+        <script>
+
+            const products = data.products;
+            const groups = data.products.map(({ group }) => group).filter((value, index, self) => self.indexOf(value) === index);
+
+            const App = {
+                data() {
+                    return {
+                        groups: groups,
+                        products: products
+                    }
+                },
+                methods: {
+
+                },
+                mounted() {
+                    console.log(`Total product is ${this.products.length}.`)
+                }
+            }
+
+            Vue.createApp(App).mount("#app")
+        </script>
+    </body>
+
+</html>
