@@ -8,11 +8,12 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Jain Exports</title>
+        <link rel="icon" type="image/x-icon" href="./favicon.ico">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./bootstrap-grid.css">
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./css/bootstrap-grid.css">
+        <link rel="stylesheet" href="./css/style.css">
     </head>
 
     <body>
@@ -24,15 +25,27 @@
                 <div class="row align-items-center">
                     <div class="col-4 text-left">
                         <div class="logo-wrapper">
-                            <img src="./logo.svg" />
+                            <img src="./images/icons/logo.svg" />
                         </div>
                     </div>
                     <div class="col text-right">
-                        <p>Company: <span>JM Exports</span></p>
+                        <p>Company: <span>Jain Exports</span></p>
                         <p>Name: <span>Pinkesh Parekh</span></p>
                         <p>Contact: <span>+919978802880</span></p>
                         <p>Email: <span>jmenterprise.ahd@gmail.com</span></p>
-                        <p>Address: <span>24, Gala Magnus, South Bopal Ahmedabad</span></p>
+                        <p>Address: <span>24, Gala Magnus, South Bopal, Ahmedabad, 380058</span></p>
+                        <div class="socials">
+                            <a href="tel:+919978802880" target="_blank" class="social"><img
+                                    src="./images/icons/telephone.png" /></a>
+                            <a href="https://wa.me/9978802880" target="_blank" class="social"><img
+                                    src="./images/icons/whatsapp.png" /></a>
+                            <a href="mailto:jmenterprise.ahd@gmail.com" target="_blank" class="social"><img
+                                    src="./images/icons/gmail.png" /></a>
+                            <a href="https://www.facebook.com/people/Jain-Exports/100091514366075" target="_blank"
+                                class="social"><img src="./images/icons/facebook.png" /></a>
+                            <a href="https://instagram.com/jain_exports_ahm" target="_blank" class="social"><img
+                                    src="./images/icons/instagram.png" /></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,44 +55,89 @@
                     <div class="group-name" :title="group">{{group}}</div>
                     <ul class="product-list row">
                         <template v-for="(product, i) in products">
-                            <li class="product-item col-12 col-sm-12 col-md-6 col-lg-4" v-if="product.group === group">
-                                <div class="product-inner">
-                                    <p class="product-name" :title="product.name">{{ product.name }}</p>
-                                    <div class="product-image"><img :src="`./images/${product.image}`" /></div>
-                                    <p class="product-description">{{ product.description }}</p>
-                                    <p class="product-stock">{{ product.inStock ? "In Stock" : "Out of Stock"}}</p>
-                                </div>
-                            </li>
+                            <template v-if="product.name != null || product.name !== '' ">
+                                <li class="product-item col-12 col-sm-12 col-md-6 col-lg-4"
+                                    v-if="product.group === group">
+                                    <div class="product-inner">
+                                        <p class="product-name" :title="product.name">{{ product.name }}</p>
+                                        <div class="product-image">
+                                            <template v-if="product.image">
+                                                <img :src="`./images/${product.image}`" :alt="product.name" />
+                                            </template>
+                                            <template v-if="product.stock === '0' || product.stock === 0">
+                                                <span class="product-sold"></span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="product-hover">
+                                        <template v-if="product.types && product.types.length >=1">
+                                            <div class="product-types">
+                                                <strong>Types: </strong>
+                                                <template v-for="(type, i) in product.types">
+                                                    <span class="item">{{type}}</span>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <template v-if="product.description">
+                                            <div class="product-description"><strong>Description: </strong> {{
+                                                product.description }}</div>
+                                        </template>
+                                        <template v-if="product.ingredients">
+                                            <div class="product-ingredients"><strong>Ingredients: </strong> {{
+                                                product.ingredients }}</div>
+                                        </template>
+
+                                    </div>
+                                </li>
+                            </template>
                         </template>
                     </ul>
                 </template>
             </div>
 
             <div class="footer">
-                <p class="copyright">Copyright © All Rights Reserved By Jain Exports.</p>
+                <p class="copyright"><strong>Copyright © All Rights Reserved By Jain Exports.</strong></p>
+
             </div>
         </div>
 
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="./data.js"></script>
-
+        <script src="./js/papaparse.min.js"></script>
         <script>
 
-            const products = data.products;
-            const groups = data.products.map(({ group }) => group).filter((value, index, self) => self.indexOf(value) === index);
+            const products = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrNgWD2kjdq3m9pxdUEHJbYrdBXk5EJYg61yjj1jTCGl_xp_OQczqa0wQQVu1teJIu028iPK_fXKWR/pub?gid=0&single=true&output=csv";
 
             const App = {
                 data() {
                     return {
-                        groups: groups,
-                        products: products
+                        groups: [],
+                        products: []
                     }
                 },
                 methods: {
-
+                    fetchProducts() {
+                        Papa.parse(products, {
+                            download: true,
+                            header: true,
+                            skipEmptyLines: true,
+                            complete: (results) => {
+                                this.products = results.data.filter((product) => product.name != null || product.name != '')
+                                this.products = this.products.map((product) => {
+                                    if (product.types != null) {
+                                        product.types = product.types.split(",").filter(Boolean);
+                                    }
+                                    return product
+                                })
+                                this.groups = this.products.map(({ group }) => group).filter(Boolean).filter((value, index, self) => self.indexOf(value) === index);
+                                console.log("Total Groups", this.groups.length)
+                                console.log("Total Products", this.products.length)
+                            }
+                        });
+                    }
                 },
                 mounted() {
-                    console.log(`Total product is ${this.products.length}.`)
+                    this.fetchProducts();
+
                 }
             }
 
